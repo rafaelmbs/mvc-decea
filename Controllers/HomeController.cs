@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace mvc_decea.Controllers
 {
@@ -26,6 +28,13 @@ namespace mvc_decea.Controllers
 
             return View();
         }
+
+        public IActionResult Charts()
+        {
+            ViewData["Message"] = "Your chart page.";
+
+            return View();
+        }        
 
         public IActionResult Error()
         {

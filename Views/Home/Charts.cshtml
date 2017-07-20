@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Charts Page";
+}
+<h2>@ViewData["Title"].</h2>
+<h3>@ViewData["Message"]</h3>
+
+<script type="text/javascript">
+function codeAddress() {
+    $.ajax({
+            url: "/Charts/sbsp",
+            type: "GET",
+            success: function (data) {
+                $.each(data, function (i, obj) {
+                    alert(obj);
+                });
+            }
+        });
+}
+
+window.onload = codeAddress;
+</script>
+
