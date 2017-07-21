@@ -4,19 +4,36 @@
 <h2>@ViewData["Title"].</h2>
 <h3>@ViewData["Message"]</h3>
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 <script type="text/javascript">
-function codeAddress() {
+function codeAddress(icao) {
     $.ajax({
-            url: "/Charts/sbsp",
+            url: "/Charts/" + icao,
             type: "GET",
             success: function (data) {
-                $.each(data, function (i, obj) {
-                    alert(obj);
+                var table = document.getElementById('tb');
+                $.each(data.cartas[0].item, function (i, obj) {
+                    var tr = document.createElement('tr');
+                    tr.innerHTML = '<td><a href='+ obj.link +'>' + obj.nome + '</a></td>';
+                    table.appendChild(tr);
                 });
             }
         });
 }
 
-window.onload = codeAddress;
+$(document).ready(function() {
+    $('#btnPesquisar').click(function() {
+      codeAddress($('#txtIcao').val());
+    });
+});
 </script>
 
+<input id="txtIcao" ng-model="sbsp"></input>
+<input type="button" id="btnPesquisar" value="Pesquisar"></input>
+
+<div ng-app="">
+<table id="tb">
+    
+</table>
+</div>
