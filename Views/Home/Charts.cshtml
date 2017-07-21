@@ -12,6 +12,7 @@ function codeAddress(icao) {
             url: "/Charts/" + icao,
             type: "GET",
             success: function (data) {
+                $("#tb tr").remove(); 
                 var table = document.getElementById('tb');
                 $.each(data.cartas[0].item, function (i, obj) {
                     var tr = document.createElement('tr');
