@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Weather Page";
+}
+<h2>@ViewData["Title"].</h2>
+<h3>@ViewData["Message"]</h3>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+function codeAddress(icao) {
+    $.ajax({
+            url: "/Weather/" + icao,
+            type: "GET",
+            success: function (data) {
+                $("#div p").remove(); 
+                var div = document.getElementById('div');
+                //$.each(data.met[0], function (i, obj) {
+                    var p = document.createElement('p');
+                    p.innerHTML = data.met[0].metar + '<br>' + data.met[0].taf;
+                    div.appendChild(p);
+                //});
+            }
+        });
+}
+
+$(document).ready(function() {
+    $('#btnPesquisar').click(function() {
+      codeAddress($('#txtIcao').val());
+    });
+});
+</script>
+
+<input id="txtIcao" ng-model="sbsp"></input>
+<input type="button" id="btnPesquisar" value="Pesquisar"></input>
+
+<div ng-app="">
+<div id="div">
+    
+</div>
+</div>

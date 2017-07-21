@@ -36,6 +36,13 @@ namespace mvc_decea.Controllers
             return View();
         }        
 
+        public IActionResult Weather()
+        {
+            ViewData["Message"] = "Your weather page.";
+
+            return View();
+        } 
+
         public IActionResult Error()
         {
             return View();

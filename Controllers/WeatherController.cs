@@ -10,53 +10,45 @@ namespace mvc_decea.Controllers
 {
     public class WeatherController : Controller
     {
-        [HttpGet("[action]/{city}")]
-        public async Task<IActionResult> City(string city)
+        [HttpGet("[action]/{icao}")]
+        public async Task<IActionResult> Weather(string icao)
         {
             using (var client = new HttpClient())
             {
                 try
                 {
-                    client.BaseAddress = new Uri("http://api.openweathermap.org");
-                    var response = await client.GetAsync($"/data/2.5/weather?q={city}&appid=a96dc67f1d6ad570e96f9056f911faa6&units=metric");
+                    client.BaseAddress = new Uri("http://54.233.79.161:3000");
+                    var response = await client.GetAsync($"/met/{icao}");
                     response.EnsureSuccessStatusCode();
     
                     var stringResult = await response.Content.ReadAsStringAsync();
-                    var rawWeather = JsonConvert.DeserializeObject<OpenWeatherResponse>(stringResult);
-                    return Ok(new {
-                        Pressure = rawWeather.Main.Pressure,
-                        Temp = rawWeather.Main.Temp,
-                        Summary = string.Join(",", rawWeather.Weather.Select(x=>x.Main)),
-                        City = rawWeather.Name
+                    var rawChart = JsonConvert.DeserializeObject<WeatherResponse>(stringResult);
+                    return Json(new {
+                        Met = rawChart.aisweb.met
                     });
                 }
                 catch (HttpRequestException httpRequestException)
                 {
-                    return BadRequest($"Error getting weather from OpenWeather: {httpRequestException.Message}");
+                    return BadRequest(httpRequestException.Message);
                 }
             }
         }
     }
 
-    public class OpenWeatherResponse
+    public class Met
     {
-        public string Name { get; set; }
-    
-        public IEnumerable<WeatherDescription> Weather { get; set; }
-    
-        public Main Main { get; set; }
+        public IList<string> loc { get; set; }
+        public IList<string> metar { get; set; }
+        public IList<string> taf { get; set; }
     }
- 
-    public class WeatherDescription
-    {
-        public string Main { get; set; }
-        public string Description { get; set; }
-    }
- 
-    public class Main
-    {
-        public string Temp { get; set; }
 
-        public string Pressure { get; set; }
+    public class AiswebWeather
+    {
+        public IList<Met> met { get; set; }
+    }
+
+    public class WeatherResponse
+    {
+        public AiswebWeather aisweb { get; set; }
     }
 }
