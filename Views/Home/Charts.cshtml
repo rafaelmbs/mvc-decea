@@ -7,16 +7,44 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-function codeAddress(icao) {
+
+function getAeroInfo(icao) {
+    $.ajax({
+            url: "/Info/" + icao,
+            type: "GET",
+            success: function (data) {
+                $("#div p").remove(); 
+                var div = document.getElementById('div');
+                //$.each(data.met[0], function (i, obj) {
+                    var p = document.createElement('p');
+                    p.innerHTML = data.info[0].aeroCode + ' - ' + data.info[0].name;
+                    div.appendChild(p);
+                //});
+            }
+        });
+}
+
+function getCharts(icao) {
     $.ajax({
             url: "/Charts/" + icao,
             type: "GET",
             success: function (data) {
                 $("#tb tr").remove(); 
                 var table = document.getElementById('tb');
+                var tr = document.createElement('tr');
+                tr = document.createElement('tr');
+                tr.innerHTML = '<td>Tipo</td><td>Carta</td>';
+                table.appendChild(tr);
                 $.each(data.cartas[0].item, function (i, obj) {
-                    var tr = document.createElement('tr');
-                    tr.innerHTML = '<td><a href='+ obj.link +'>' + obj.nome + '</a></td>';
+                    tr = document.createElement('tr');
+                    var td = document.createElement('td');
+                    td.innerHTML = obj.tipo;
+                    tr.appendChild(td);
+
+                    td = document.createElement('td');
+                    td.innerHTML = '<a href='+ obj.link +'>' + obj.nome + '</a>';
+
+                    tr.appendChild(td);
                     table.appendChild(tr);
                 });
             }
@@ -25,7 +53,8 @@ function codeAddress(icao) {
 
 $(document).ready(function() {
     $('#btnPesquisar').click(function() {
-      codeAddress($('#txtIcao').val());
+        getAeroInfo($('#txtIcao').val());
+        getCharts($('#txtIcao').val());
     });
 });
 </script>
@@ -34,7 +63,9 @@ $(document).ready(function() {
 <input type="button" id="btnPesquisar" value="Pesquisar"></input>
 
 <div ng-app="">
-<table id="tb">
-    
-</table>
+    <br>
+    <div id="div"></div>
+    <div class="table-responsive">
+        <table class="table" id="tb"></table>
+    </div>    
 </div>

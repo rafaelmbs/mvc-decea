@@ -34,7 +34,14 @@ namespace mvc_decea.Controllers
             ViewData["Message"] = "Your chart page.";
 
             return View();
-        }        
+        }
+
+        public IActionResult Notam()
+        {
+            ViewData["Message"] = "Your notam page.";
+
+            return View();
+        } 
 
         public IActionResult Weather()
         {

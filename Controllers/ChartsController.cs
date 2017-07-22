@@ -24,7 +24,7 @@ namespace mvc_decea.Controllers
                     var stringResult = await response.Content.ReadAsStringAsync();
                     var rawChart = JsonConvert.DeserializeObject<CartasResponse>(stringResult);
                     return Json(new {
-                        Cartas = rawChart.aisweb.cartas
+                        Cartas = rawChart.aisweb.cartas.OrderBy(o => o.item[0].tipo)
                     });
                 }
                 catch (HttpRequestException httpRequestException)
@@ -35,7 +35,7 @@ namespace mvc_decea.Controllers
         }
     }
 
-    public class Item
+    public class ItemCarta
     {
         public IList<string> especie { get; set; }
         public IList<string> tipo { get; set; }
@@ -49,15 +49,15 @@ namespace mvc_decea.Controllers
 
     public class Carta
     {
-        public IList<Item> item { get; set; }
+        public IList<ItemCarta> item { get; set; }
     }
-        public class Aisweb
+    public class AiswebCharts
     {
         public IList<Carta> cartas { get; set; }
     }
 
     public class CartasResponse
     {
-        public Aisweb aisweb { get; set; }
+        public AiswebCharts aisweb { get; set; }
     }
 }
