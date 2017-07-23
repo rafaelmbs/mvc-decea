@@ -27,7 +27,6 @@
     daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   };
 
-
   /*****************************************************************************
    *
    * Event listeners for UI elements
@@ -47,14 +46,13 @@
   document.getElementById('butAddCity').addEventListener('click', function() {
     // Add the newly selected city
     var input = document.getElementById('selectAirportToAdd');
-
     //var selected = select.options[select.selectedIndex];
     var icao = input.value;
     if (!app.selectedCities) {
       app.selectedCities = [];
     }
     app.getWeather(icao);
-    app.selectedCities.push({icao: icao});
+    app.selectedCities.push(icao);
     app.saveSelectedCities();
     app.toggleAddDialog(false);
   });
@@ -63,7 +61,6 @@
     // Close the add new city dialog
     app.toggleAddDialog(false);
   });
-
 
   /*****************************************************************************
    *
@@ -85,14 +82,15 @@
   app.updateForecastCard = function(data) {
     var dataLastUpdated = new Date(data.created);
 
-    var card = app.visibleCards[data.key];
+    var card = app.visibleCards[data.loc];
+
     if (!card) {
       card = app.cardTemplate.cloneNode(true);
       card.classList.remove('cardTemplate');
       card.querySelector('.icao').textContent = data.icao;
       card.removeAttribute('hidden');
       app.container.appendChild(card);
-      app.visibleCards[data.key] = card;
+      app.visibleCards[data.loc] = card;
     }
 
     // Verifies the data provide is newer than what's already visible
@@ -120,10 +118,11 @@
     }
   };
 
+  var initialWeatherForecast = "sbmt";
+
   app.getWeather = function(icao)
   {
-    icao = "sbmt";
-    var url = "/Weather/" + icao;
+    var url = '/Weather/' + icao;
 
     if ('caches' in window) {
       /*
@@ -154,7 +153,7 @@
         }
       } else {
         // Return the initial weather forecast since no data is available.
-        //app.updateForecastCard(initialWeatherForecast);
+        app.updateForecastCard(initialWeatherForecast);
       }
     };
     request.open('GET', url);
@@ -165,7 +164,10 @@
   app.updateForecasts = function() {
     var keys = Object.keys(app.visibleCards);
     keys.forEach(function(key) {
-      app.getWeather(key);
+      if (key != 'undefined')
+        {
+          app.getWeather(key);
+        }      
     });
   };
 
@@ -181,7 +183,7 @@
   if (app.selectedCities) {
     app.selectedCities = JSON.parse(app.selectedCities);
     app.selectedCities.forEach(function(icao) {
-      app.getWeather(icao);
+      app.getWeather(icao.icao);
     });
   } else {
     /* The user is using the app for the first time, or the user has not
@@ -189,11 +191,11 @@
      * scenario could guess the user's location via IP lookup and then inject
      * that data into the page.
      */
-    // app.updateForecastCard(icao);
-    // app.selectedCities = [
-    //   {icao: icao}
-    // ];
-    // app.saveSelectedCities();
+    app.updateForecastCard(initialWeatherForecast);
+    app.selectedCities = [
+      {icao: initialWeatherForecast}
+    ];
+    app.saveSelectedCities();
   }
 
   // TODO add service worker code here
