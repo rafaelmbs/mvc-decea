@@ -41,7 +41,7 @@
 </head>
 <body>
     <header class="header">
-        <h1 class="header__title">Weather PWA</h1>
+        <h1 class="header__title">Metar PWA</h1>
         <button id="butRefresh" class="headerButton" aria-label="Refresh"></button>
         <button id="butAdd" class="headerButton" aria-label="Add"></button>
     </header>
@@ -56,7 +56,7 @@
         <script src="~/js/app.js" async asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/js/app.min.js" async asp-append-version="true"></script>
+        <script src="~/js/app.js" async asp-append-version="true"></script>
     </environment>
     
     @RenderSection("scripts", required: false)
