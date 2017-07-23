@@ -164,10 +164,9 @@
   app.updateForecasts = function() {
     var keys = Object.keys(app.visibleCards);
     keys.forEach(function(key) {
-      if (key != 'undefined')
-        {
-          app.getWeather(key);
-        }      
+      if(!key){
+        app.getWeather(key);
+      };
     });
   };
 
