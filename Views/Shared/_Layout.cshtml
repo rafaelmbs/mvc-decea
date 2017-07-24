@@ -45,19 +45,8 @@
         <button id="butRefresh" class="headerButton" aria-label="Refresh"></button>
         <button id="butAdd" class="headerButton" aria-label="Add"></button>
     </header>
-    @RenderBody()
-    <div class="loader">
-        <svg viewBox="0 0 32 32" width="32" height="32">
-            <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
-        </svg>
-    </div>
 
-    <environment names="Development">
-        <script src="~/js/app.js" async asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="~/js/app.js" async asp-append-version="true"></script>
-    </environment>
+    @RenderBody()        
     
     @RenderSection("scripts", required: false)
 

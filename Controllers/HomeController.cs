@@ -15,9 +15,11 @@ namespace mvc_decea.Controllers
             return View();
         }
         
-        public IActionResult Charts()
+        public IActionResult Charts(string icao)
         {
             ViewData["Message"] = "Your chart page.";
+
+            ViewData["icao"] = icao;
 
             return View();
         }
@@ -29,9 +31,10 @@ namespace mvc_decea.Controllers
             return View();
         } 
 
-        public IActionResult Weather()
-        {
+        public IActionResult Weather(string icao)
+        {            
             ViewData["Message"] = "Your weather page.";
+            ViewData["icao"] = icao;
 
             return View();
         } 

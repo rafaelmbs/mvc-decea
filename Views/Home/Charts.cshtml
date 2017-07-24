@@ -52,15 +52,13 @@ function getCharts(icao) {
 }
 
 $(document).ready(function() {
-    $('#btnPesquisar').click(function() {
-        getAeroInfo($('#txtIcao').val());
-        getCharts($('#txtIcao').val());
-    });
+    //$('#btnPesquisar').click(function() {
+        var icao = "@ViewData["icao"]";
+        getAeroInfo(icao);
+        getCharts(icao);
+    //});
 });
 </script>
-
-<input id="txtIcao" ng-model="sbsp"></input>
-<input type="button" id="btnPesquisar" value="Pesquisar"></input>
 
 <div ng-app="">
     <br>

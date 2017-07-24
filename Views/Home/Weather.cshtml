@@ -24,14 +24,12 @@ function getWeather(icao) {
 }
 
 $(document).ready(function() {
-    $('#btnPesquisar').click(function() {
-        getWeather($('#txtIcao').val());
-    });
+    //$('#btnPesquisar').click(function() {
+        var icao = "@ViewData["icao"]";
+        getWeather(icao);
+    //});
 });
 </script>
-
-<input id="txtIcao" ng-model="sbsp"></input>
-<input type="button" id="btnPesquisar" value="Pesquisar"></input>
 
 <div ng-app="">
 <div id="div">

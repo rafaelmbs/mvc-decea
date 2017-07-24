@@ -106,7 +106,12 @@
 
     card.querySelector('.icao').textContent = data.loc;
     card.querySelector('.metar').textContent = data.metar;
-    card.querySelector('.taf').textContent = data.taf;
+    card.querySelector('.taf').textContent = data.taf;    
+
+    var a = "<a href='/Home/Charts?icao'="+ data.loc +">Charts</a>";
+
+    card.querySelector('.linkCharts').textContent = "Charts";
+    card.querySelector('.linkCharts').setAttribute('href', "/Home/Charts?icao=" + data.loc);
     
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
@@ -141,10 +146,9 @@
        */
       caches.match(url).then(function(response) {
         if (response) {
-          response.json().then(function updateFromCache(json) {
-            var results = json.query.results;
-            results.icao = icao;
-            results.created = json.query.created;
+          response.json().then(function updateFromCache(json) {            
+            var results = json.met[0];
+            results.loc = icao;
             app.updateForecastCard(results);
           });
         }
@@ -171,7 +175,6 @@
 
   // Iterate all of the cards and attempt to get the latest forecast data
   app.updateForecasts = function() {
-    console.log(app.selectedCities);
     var keys = Object.keys(app.visibleCards);
     keys.forEach(function(key) {
       app.getWeather(key);
