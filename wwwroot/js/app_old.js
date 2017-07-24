@@ -23,9 +23,9 @@
     spinner: document.querySelector('.loader'),
     cardTemplate: document.querySelector('.cardTemplate'),
     container: document.querySelector('.main'),
-    addDialog: document.querySelector('.dialog-container')
+    addDialog: document.querySelector('.dialog-container'),
+    daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   };
-
 
   /*****************************************************************************
    *
@@ -45,13 +45,14 @@
 
   document.getElementById('butAddCity').addEventListener('click', function() {
     // Add the newly selected city
-    var input = document.getElementById('selectCityToAdd');
+    var input = document.getElementById('selectAirportToAdd');
+    //var selected = select.options[select.selectedIndex];
     var icao = input.value;
     if (!app.selectedCities) {
       app.selectedCities = [];
     }
     app.getWeather(icao);
-    app.selectedCities.push({icao: icao});
+    app.selectedCities.push(icao);
     app.saveSelectedCities();
     app.toggleAddDialog(false);
   });
@@ -60,7 +61,6 @@
     // Close the add new city dialog
     app.toggleAddDialog(false);
   });
-
 
   /*****************************************************************************
    *
@@ -80,14 +80,18 @@
   // Updates a weather card with the latest weather forecast. If the card
   // doesn't already exist, it's cloned from the template.
   app.updateForecastCard = function(data) {
+    var dataLastUpdated = new Date(data.created);
+
     var card = app.visibleCards[data.loc];
+
     if (!card) {
       card = app.cardTemplate.cloneNode(true);
       card.classList.remove('cardTemplate');
-      card.querySelector('.icao').textContent = data.loc;
+      card.querySelector('.icao').textContent = data.icao;
       card.removeAttribute('hidden');
       app.container.appendChild(card);
       app.visibleCards[data.loc] = card;
+      console.log(app.visibleCards);
     }
 
     // Verifies the data provide is newer than what's already visible
@@ -105,9 +109,9 @@
     cardLastUpdatedElem.textContent = data.created;
 
     card.querySelector('.icao').textContent = data.loc;
+    //card.querySelector('.date').textContent = data.loc;
     card.querySelector('.metar').textContent = data.metar;
     card.querySelector('.taf').textContent = data.taf;
-    
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
@@ -115,24 +119,10 @@
     }
   };
 
-
-  /*****************************************************************************
-   *
-   * Methods for dealing with the model
-   *
-   ****************************************************************************/
-
-  /*
-   * Gets a forecast for a specific city and updates the card with the data.
-   * getForecast() first checks if the weather data is in the cache. If so,
-   * then it gets that data and populates the card with the cached data.
-   * Then, getForecast() goes to the network for fresh data. If the network
-   * request goes through, then the card gets updated a second time with the
-   * freshest data.
-   */
-  app.getWeather = function(icao) {
+  app.getWeather = function(icao)
+  {
     var url = '/Weather/' + icao;
-    // TODO add cache logic here
+
     if ('caches' in window) {
       /*
        * Check if the service worker has already cached this city's weather
@@ -171,11 +161,18 @@
 
   // Iterate all of the cards and attempt to get the latest forecast data
   app.updateForecasts = function() {
-    console.log(app.selectedCities);
     var keys = Object.keys(app.visibleCards);
     keys.forEach(function(key) {
-      app.getWeather(key);
+      if(!key){
+        app.getWeather(key);
+      };
     });
+  };
+
+  var initialWeatherForecast = {
+    icao: 'sbmt',
+    metar: 'METAR',
+    taf: 'TAF',
   };
 
   // TODO add saveSelectedCities function here
@@ -185,36 +182,12 @@
     localStorage.selectedCities = selectedCities;
   };
 
-  /*
-   * Fake weather data that is presented when the user first uses the app,
-   * or when the user has not saved any cities. See startup code for more
-   * discussion.
-   */
-  var initialWeatherForecast = {
-    loc: 'SBMT',
-    metar: "METAR",
-    taf: "TAF"
-  };
-  // TODO uncomment line below to test app with fake data
-  // app.updateForecastCard(initialWeatherForecast);
-
-  /************************************************************************
-   *
-   * Code required to start the app
-   *
-   * NOTE: To simplify this codelab, we've used localStorage.
-   *   localStorage is a synchronous API and has serious performance
-   *   implications. It should not be used in production applications!
-   *   Instead, check out IDB (https://www.npmjs.com/package/idb) or
-   *   SimpleDB (https://gist.github.com/inexorabletash/c8069c042b734519680c)
-   ************************************************************************/
-
   // TODO add startup code here
   app.selectedCities = localStorage.selectedCities;
   if (app.selectedCities) {
     app.selectedCities = JSON.parse(app.selectedCities);
-    app.selectedCities.forEach(function(airport) {
-      app.getWeather(airport.icao);
+    app.selectedCities.forEach(function(icao) {
+      app.getWeather(icao.icao);
     });
   } else {
     /* The user is using the app for the first time, or the user has not
@@ -224,7 +197,7 @@
      */
     app.updateForecastCard(initialWeatherForecast);
     app.selectedCities = [
-      {icao: initialWeatherForecast.loc}
+      {icao: initialWeatherForecast}
     ];
     app.saveSelectedCities();
   }
