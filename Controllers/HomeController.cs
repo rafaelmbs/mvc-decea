@@ -18,15 +18,15 @@ namespace mvc_decea.Controllers
         public IActionResult Charts(string icao)
         {
             ViewData["Message"] = "Your chart page.";
-
             ViewData["icao"] = icao;
 
             return View();
         }
 
-        public IActionResult Notam()
+        public IActionResult Notam(string icao)
         {
             ViewData["Message"] = "Your notam page.";
+            ViewData["icao"] = icao;
 
             return View();
         } 

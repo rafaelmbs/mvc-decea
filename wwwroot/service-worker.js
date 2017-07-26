@@ -80,13 +80,15 @@ self.addEventListener('fetch', function(e) {
      * network" strategy:
      * https://jakearchibald.com/2014/offline-cookbook/#cache-then-network
      */
-    e.respondWith(
-      caches.open(dataCacheName).then(function(cache) {
-        return fetch(e.request).then(function(response){
-          cache.put(e.request.url, response.clone());
-          return response;
-        });
-      })
+     e.respondWith(
+      fetch(e.request)
+        .then(function(response) {
+          return caches.open(dataCacheName).then(function(cache) {
+            cache.put(e.request.url, response.clone());
+            console.log('[ServiceWorker] Fetched&Cached Data');
+            return response;
+          });
+        })
     );
   } else {
     /*

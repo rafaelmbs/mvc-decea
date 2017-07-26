@@ -3,9 +3,9 @@
 }
 <main class="main">
     <div class="card cardTemplate weather-forecast" hidden>
+        <div class="city-key" hidden></div>
         <div class="card-last-updated" hidden></div>
-        <div class="icao"></div>
-        <div class="date"></div>
+        <div class="location"></div>
         <div class="metar"></div>
         <div class="taf"></div>
         </br>
@@ -36,5 +36,5 @@
     <script src="~/js/app.js" async asp-append-version="true"></script>
 </environment>
 <environment names="Staging,Production">
-    <script src="~/js/app.js" async asp-append-version="true"></script>
+    <script src="~/js/app.min.js" async asp-append-version="true"></script>
 </environment>

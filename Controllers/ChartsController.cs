@@ -24,7 +24,7 @@ namespace mvc_decea.Controllers
                     var stringResult = await response.Content.ReadAsStringAsync();
                     var rawChart = JsonConvert.DeserializeObject<CartasResponse>(stringResult);
                     return Json(new {
-                        Cartas = rawChart.aisweb.cartas.OrderBy(o => o.item[0].tipo)
+                        Cartas = rawChart.aisweb.cartas
                     });
                 }
                 catch (HttpRequestException httpRequestException)

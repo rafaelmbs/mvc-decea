@@ -50,7 +50,7 @@
     if (!app.selectedCities) {
       app.selectedCities = [];
     }
-    app.getWeather(icao);
+    app.getForecast(icao);
     app.selectedCities.push({icao: icao});
     app.saveSelectedCities();
     app.toggleAddDialog(false);
@@ -80,11 +80,18 @@
   // Updates a weather card with the latest weather forecast. If the card
   // doesn't already exist, it's cloned from the template.
   app.updateForecastCard = function(data) {
+    var dataLastUpdated = new Date(data.created);
+    //var sunrise = data.channel.astronomy.sunrise;
+    //var sunset = data.channel.astronomy.sunset;
+    //var current = data.channel.item.condition;
+    //var humidity = data.channel.atmosphere.humidity;
+    //v1ar wind = data.channel.wind;
+
     var card = app.visibleCards[data.loc];
     if (!card) {
       card = app.cardTemplate.cloneNode(true);
       card.classList.remove('cardTemplate');
-      card.querySelector('.icao').textContent = data.loc;
+      card.querySelector('.location').textContent = data.loc;
       card.removeAttribute('hidden');
       app.container.appendChild(card);
       app.visibleCards[data.loc] = card;
@@ -104,15 +111,12 @@
     }
     cardLastUpdatedElem.textContent = data.created;
 
-    card.querySelector('.icao').textContent = data.loc;
     card.querySelector('.metar').textContent = data.metar;
-    card.querySelector('.taf').textContent = data.taf;    
-
-    var a = "<a href='/Home/Charts?icao'="+ data.loc +">Charts</a>";
+    card.querySelector('.taf').textContent = data.taf;
 
     card.querySelector('.linkCharts').textContent = "Charts";
     card.querySelector('.linkCharts').setAttribute('href', "/Home/Charts?icao=" + data.loc);
-    
+
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
@@ -135,7 +139,7 @@
    * request goes through, then the card gets updated a second time with the
    * freshest data.
    */
-  app.getWeather = function(icao) {
+  app.getForecast = function(icao) {    
     var url = '/Weather/' + icao;
     // TODO add cache logic here
     if ('caches' in window) {
@@ -146,9 +150,23 @@
        */
       caches.match(url).then(function(response) {
         if (response) {
-          response.json().then(function updateFromCache(json) {            
+          response.json().then(function updateFromCache(json) {
             var results = json.met[0];
-            results.loc = icao;
+            results.loc = json.met[0].loc;
+            results.metar = json.met[0].metar;
+            results.taf = json.met[0].taf;
+            
+            var metar = json.met[0].metar.toString();
+
+            var year = metar.substring(0, 4);
+            var month = metar.substring(4, 6);
+            var day = metar.substring(6, 8);
+            var hour = metar.substring(8, 10);
+
+            var date = new Date(year+"-"+month+"-"+day+" "+hour+":00");
+
+            results.created = date.toISOString();
+
             app.updateForecastCard(results);
           });
         }
@@ -161,7 +179,20 @@
         if (request.status === 200) {
           var response = JSON.parse(request.response);
           var results = response.met[0];
-          results.icao = icao;
+          results.loc = icao;
+          results.metar = response.met[0].metar;
+          results.taf = response.met[0].taf;
+
+          var metar = response.met[0].metar.toString();
+
+          var year = metar.substring(0, 4);
+          var month = metar.substring(4, 6);
+          var day = metar.substring(6, 8);
+          var hour = metar.substring(8, 10);
+
+          var date = new Date(year+"-"+month+"-"+day+" "+hour+":00");
+
+          results.created = date.toISOString();
           app.updateForecastCard(results);
         }
       } else {
@@ -177,7 +208,7 @@
   app.updateForecasts = function() {
     var keys = Object.keys(app.visibleCards);
     keys.forEach(function(key) {
-      app.getWeather(key);
+      app.getForecast(key);
     });
   };
 
@@ -196,7 +227,8 @@
   var initialWeatherForecast = {
     loc: 'SBMT',
     metar: "METAR",
-    taf: "TAF"
+    taf: "TAF",
+    created: '2016-07-22T01:00:00Z'
   };
   // TODO uncomment line below to test app with fake data
   // app.updateForecastCard(initialWeatherForecast);
@@ -217,7 +249,7 @@
   if (app.selectedCities) {
     app.selectedCities = JSON.parse(app.selectedCities);
     app.selectedCities.forEach(function(airport) {
-      app.getWeather(airport.icao);
+      app.getForecast(airport.icao);
     });
   } else {
     /* The user is using the app for the first time, or the user has not
