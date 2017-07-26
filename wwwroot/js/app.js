@@ -117,6 +117,9 @@
     card.querySelector('.linkCharts').textContent = "Charts";
     card.querySelector('.linkCharts').setAttribute('href', "/Home/Charts?icao=" + data.loc);
 
+    card.querySelector('.linkNotam').textContent = "Notam";
+    card.querySelector('.linkNotam').setAttribute('href', "/Home/Notam?icao=" + data.loc);
+
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
@@ -190,7 +193,9 @@
           var day = metar.substring(6, 8);
           var hour = metar.substring(8, 10);
 
-          var date = new Date(year+"-"+month+"-"+day+" "+hour+":00");
+          var strDate = initialWeatherForecast.created;//year+"-"+month+"-"+day+" "+hour+":00";
+
+          var date = new Date(strDate);
 
           results.created = date.toISOString();
           app.updateForecastCard(results);
