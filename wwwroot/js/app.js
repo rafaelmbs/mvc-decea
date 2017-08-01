@@ -19,7 +19,7 @@
   var app = {
     isLoading: true,
     visibleCards: {},
-    selectedCities: [],
+    selectedAirports: [],
     spinner: document.querySelector('.loader'),
     cardTemplate: document.querySelector('.cardTemplate'),
     container: document.querySelector('.main'),
@@ -47,12 +47,12 @@
     // Add the newly selected city
     var input = document.getElementById('selectCityToAdd');
     var icao = input.value;
-    if (!app.selectedCities) {
-      app.selectedCities = [];
+    if (!app.selectedAirports) {
+      app.selectedAirports = [];
     }
     app.getForecast(icao);
-    app.selectedCities.push({icao: icao});
-    app.saveSelectedCities();
+    app.selectedAirports.push({icao: icao});
+    app.saveselectedAirports();
     app.toggleAddDialog(false);
   });
 
@@ -111,8 +111,11 @@
     }
     cardLastUpdatedElem.textContent = data.created;
 
-    card.querySelector('.metar').textContent = data.metar;
-    card.querySelector('.taf').textContent = data.taf;
+    var metar = data.metar.toString().slice(13);
+    var taf = data.taf.toString().slice(13);
+
+    card.querySelector('.metar').textContent = metar;
+    card.querySelector('.taf').textContent = taf;
 
     card.querySelector('.linkCharts').textContent = "Charts";
     card.querySelector('.linkCharts').setAttribute('href', "/Home/Charts?icao=" + data.loc);
@@ -126,7 +129,6 @@
       app.isLoading = false;
     }
   };
-
 
   /*****************************************************************************
    *
@@ -142,7 +144,7 @@
    * request goes through, then the card gets updated a second time with the
    * freshest data.
    */
-  app.getForecast = function(icao) {    
+  app.getForecast = function(icao) {
     var url = '/Weather/' + icao;
     // TODO add cache logic here
     if ('caches' in window) {
@@ -193,7 +195,7 @@
           var day = metar.substring(6, 8);
           var hour = metar.substring(8, 10);
 
-          var strDate = initialWeatherForecast.created;//year+"-"+month+"-"+day+" "+hour+":00";
+          var strDate = year+"-"+month+"-"+day+" "+hour+":00"//initialWeatherForecast.created;//;
 
           var date = new Date(strDate);
 
@@ -217,11 +219,11 @@
     });
   };
 
-  // TODO add saveSelectedCities function here
+  // TODO add saveselectedAirports function here
   // Save list of cities to localStorage.
-  app.saveSelectedCities = function() {
-    var selectedCities = JSON.stringify(app.selectedCities);
-    localStorage.selectedCities = selectedCities;
+  app.saveselectedAirports = function() {
+    var selectedAirports = JSON.stringify(app.selectedAirports);
+    localStorage.selectedAirports = selectedAirports;
   };
 
   /*
@@ -231,6 +233,7 @@
    */
   var initialWeatherForecast = {
     loc: 'SBMT',
+    name: '',
     metar: "METAR",
     taf: "TAF",
     created: '2016-07-22T01:00:00Z'
@@ -250,10 +253,10 @@
    ************************************************************************/
 
   // TODO add startup code here
-  app.selectedCities = localStorage.selectedCities;
-  if (app.selectedCities) {
-    app.selectedCities = JSON.parse(app.selectedCities);
-    app.selectedCities.forEach(function(airport) {
+  app.selectedAirports = localStorage.selectedAirports;
+  if (app.selectedAirports) {
+    app.selectedAirports = JSON.parse(app.selectedAirports);
+    app.selectedAirports.forEach(function(airport) {
       app.getForecast(airport.icao);
     });
   } else {
@@ -263,10 +266,10 @@
      * that data into the page.
      */
     app.updateForecastCard(initialWeatherForecast);
-    app.selectedCities = [
+    app.selectedAirports = [
       {icao: initialWeatherForecast.loc}
     ];
-    app.saveSelectedCities();
+    app.saveselectedAirports();
   }
 
   // TODO add service worker code here
