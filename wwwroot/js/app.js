@@ -61,7 +61,6 @@
     app.toggleAddDialog(false);
   });
 
-
   /*****************************************************************************
    *
    * Methods to update/refresh the UI
@@ -161,16 +160,16 @@
             results.metar = json.met[0].metar;
             results.taf = json.met[0].taf;
             
-            var metar = json.met[0].metar.toString();
+            // var metar = json.met[0].metar.toString();
 
-            var year = metar.substring(0, 4);
-            var month = metar.substring(4, 6);
-            var day = metar.substring(6, 8);
-            var hour = metar.substring(8, 10);
+            // var year = metar.substring(0, 4);
+            // var month = metar.substring(4, 6);
+            // var day = metar.substring(6, 8);
+            // var hour = metar.substring(8, 10);
 
-            var date = new Date(year+"-"+month+"-"+day+" "+hour+":00");
+            // var date = new Date(year+"-"+month+"-"+day+" "+hour+":00");
 
-            results.created = date.toISOString();
+            // results.created = date.toISOString();
 
             app.updateForecastCard(results);
           });
@@ -188,18 +187,18 @@
           results.metar = response.met[0].metar;
           results.taf = response.met[0].taf;
 
-          var metar = response.met[0].metar.toString();
+          // var metar = response.met[0].metar.toString();
 
-          var year = metar.substring(0, 4);
-          var month = metar.substring(4, 6);
-          var day = metar.substring(6, 8);
-          var hour = metar.substring(8, 10);
+          // var year = metar.substring(0, 4);
+          // var month = metar.substring(4, 6);
+          // var day = metar.substring(6, 8);
+          // var hour = metar.substring(8, 10);
 
-          var strDate = year+"-"+month+"-"+day+" "+hour+":00"//initialWeatherForecast.created;//;
+          // var strDate = year+"-"+month+"-"+day+" "+hour+":00"//initialWeatherForecast.created;//;
 
-          var date = new Date(strDate);
+          // var date = new Date(strDate);
 
-          results.created = date.toISOString();
+          // results.created = date.toISOString();
           app.updateForecastCard(results);
         }
       } else {

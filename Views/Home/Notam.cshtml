@@ -5,35 +5,33 @@
 <h3>@ViewData["Message"]</h3>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
 <script type="text/javascript">
-
 function getNotam(icao) {
     $.ajax({
-            url: "/Notam/" + icao,
-            type: "GET",
-            success: function (data) {
-                $("#div p").remove(); 
-                var div = document.getElementById('div');
-                //$.each(data.met[0], function (i, obj) {
-                    var p = document.createElement('p');
-                    p.innerHTML = data.notam.loc + ' - ' + data.notam.aero;
-                    div.appendChild(p);
+        url: "/Notam/" + icao,
+        type: "GET",
+        success: function (data) {
+            $("#div p").remove(); 
+            var div = document.getElementById('div');
+            //$.each(data.met[0], function (i, obj) {
+                var p = document.createElement('p');
+                p.innerHTML = data.notam.loc + ' - ' + data.notam.aero;
+                div.appendChild(p);
 
-                    p = document.createElement('p');
-                    p.innerHTML = 'B - ' + data.notam.b;
-                    div.appendChild(p);
+                p = document.createElement('p');
+                p.innerHTML = 'B - ' + data.notam.b;
+                div.appendChild(p);
 
-                    p = document.createElement('p');
-                    p.innerHTML = 'C - ' + data.notam.c;
-                    div.appendChild(p);
+                p = document.createElement('p');
+                p.innerHTML = 'C - ' + data.notam.c;
+                div.appendChild(p);
 
-                    p = document.createElement('p');
-                    p.innerHTML = 'E - ' + data.notam.e;
-                    div.appendChild(p);
-                //});
-            }
-        });
+                p = document.createElement('p');
+                p.innerHTML = 'E - ' + data.notam.e;
+                div.appendChild(p);
+            //});
+        }
+    });
 }
 
 $(document).ready(function() {
@@ -43,6 +41,7 @@ $(document).ready(function() {
 </script>
 
 <div ng-app="">
-    <br>
     <div id="div"></div>
+    <br>
+    <a href="/Home">Voltar</a>
 </div>
