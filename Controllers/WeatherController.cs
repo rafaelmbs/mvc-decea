@@ -5,11 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Newtonsoft.Json;
+using mvc_decea.Contracts.Weather;
+using mvc_decea.Services;
 
 namespace mvc_decea.Controllers
 {
     public class WeatherController : Controller
     {
+        private readonly WeatherService _service;
+
+        public WeatherController(WeatherService service)
+        {
+            _service = service;
+        }
+
         [HttpGet("[action]/{icao}")]
         public async Task<IActionResult> Weather(string icao)
         {
@@ -17,15 +26,8 @@ namespace mvc_decea.Controllers
             {
                 try
                 {
-                    client.BaseAddress = new Uri("http://54.233.79.161:3000");
-                    var response = await client.GetAsync($"/met/{icao}");
-                    response.EnsureSuccessStatusCode();
-    
-                    var stringResult = await response.Content.ReadAsStringAsync();
-                    var rawChart = JsonConvert.DeserializeObject<WeatherResponse>(stringResult);
-                    return Json(new {
-                        Met = rawChart.aisweb.met
-                    });
+                    var result = await _service.GetWeather(icao);
+                    return Json(new { Met = result });
                 }
                 catch (HttpRequestException httpRequestException)
                 {
@@ -33,22 +35,5 @@ namespace mvc_decea.Controllers
                 }
             }
         }
-    }
-
-    public class Met
-    {
-        public IList<string> loc { get; set; }
-        public IList<string> metar { get; set; }
-        public IList<string> taf { get; set; }
-    }
-
-    public class AiswebWeather
-    {
-        public IList<Met> met { get; set; }
-    }
-
-    public class WeatherResponse
-    {
-        public AiswebWeather aisweb { get; set; }
     }
 }

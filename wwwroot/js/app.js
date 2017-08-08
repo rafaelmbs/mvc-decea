@@ -156,9 +156,9 @@
         if (response) {
           response.json().then(function updateFromCache(json) {
             var results = json.met[0];
-            results.loc = json.met[0].loc;
-            results.metar = json.met[0].metar;
-            results.taf = json.met[0].taf;
+            // results.loc = json.met[0].loc;
+            // results.metar = json.met[0].metar;
+            // results.taf = json.met[0].taf;
             
             // var metar = json.met[0].metar.toString();
 
@@ -183,9 +183,9 @@
         if (request.status === 200) {
           var response = JSON.parse(request.response);
           var results = response.met[0];
-          results.loc = icao;
-          results.metar = response.met[0].metar;
-          results.taf = response.met[0].taf;
+          // results.loc = icao;
+          // results.metar = response.met[0].metar;
+          // results.taf = response.met[0].taf;
 
           // var metar = response.met[0].metar.toString();
 
