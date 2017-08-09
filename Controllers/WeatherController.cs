@@ -10,10 +10,12 @@ namespace mvc_decea.Controllers
 {
     public class WeatherController : Controller
     {
+        private readonly AeroService _aeroService;
         private readonly WeatherService _service;
 
-        public WeatherController(WeatherService service)
+        public WeatherController(AeroService aeroService, WeatherService service)
         {
+            _aeroService = aeroService;
             _service = service;
         }
 
@@ -24,8 +26,9 @@ namespace mvc_decea.Controllers
             {
                 try
                 {
+                    var aero = await _aeroService.GetInfo(icao);
                     var result = await _service.GetWeather(icao);
-                    return Json(new { Met = result });
+                    return Json(new { Met = result, Info = aero });
                 }
                 catch (HttpRequestException httpRequestException)
                 {

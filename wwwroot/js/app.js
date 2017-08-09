@@ -84,16 +84,20 @@
     //var sunset = data.channel.astronomy.sunset;
     //var current = data.channel.item.condition;
     //var humidity = data.channel.atmosphere.humidity;
-    //v1ar wind = data.channel.wind;
+    //v1ar wind = data.channel.wind;    
 
-    var card = app.visibleCards[data.loc];
+    var weather = data.met[0];
+    var info = data.info[0];
+
+    var card = app.visibleCards[weather.loc];
     if (!card) {
       card = app.cardTemplate.cloneNode(true);
       card.classList.remove('cardTemplate');
-      card.querySelector('.location').textContent = data.loc;
+      card.querySelector('.name').textContent = info.name;
+      card.querySelector('.location').textContent = weather.loc;
       card.removeAttribute('hidden');
       app.container.appendChild(card);
-      app.visibleCards[data.loc] = card;
+      app.visibleCards[weather.loc] = card;
     }
 
     // Verifies the data provide is newer than what's already visible
@@ -108,25 +112,25 @@
         return;
       }
     }
-    cardLastUpdatedElem.textContent = data.created;
+    cardLastUpdatedElem.textContent = weather.created;
 
-    var metar = data.metar.toString().slice(13);
+    var metar = weather.metar.toString().slice(13);
 
     if (metar.indexOf("SPECI") >= 0)
       {
         metar = metar.substring(metar.indexOf("SPECI"), metar.lenght);
       }
 
-    var taf = data.taf.toString().slice(13);
+    var taf = weather.taf.toString().slice(13);
 
     card.querySelector('.metar').textContent = metar;
     card.querySelector('.taf').textContent = taf;
 
     card.querySelector('.linkCharts').textContent = "Charts";
-    card.querySelector('.linkCharts').setAttribute('href', "/Home/Charts?icao=" + data.loc);
+    card.querySelector('.linkCharts').setAttribute('href', "/Home/Charts?icao=" + weather.loc);
 
     card.querySelector('.linkNotam').textContent = "Notam";
-    card.querySelector('.linkNotam').setAttribute('href', "/Home/Notam?icao=" + data.loc);
+    card.querySelector('.linkNotam').setAttribute('href', "/Home/Notam?icao=" + weather.loc);
 
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
@@ -161,7 +165,7 @@
       caches.match(url).then(function(response) {
         if (response) {
           response.json().then(function updateFromCache(json) {
-            var results = json.met[0];
+            var results = json;
             // results.loc = json.met[0].loc;
             // results.metar = json.met[0].metar;
             // results.taf = json.met[0].taf;
@@ -188,7 +192,7 @@
       if (request.readyState === XMLHttpRequest.DONE) {
         if (request.status === 200) {
           var response = JSON.parse(request.response);
-          var results = response.met[0];
+          var results = response;
           // results.loc = icao;
           // results.metar = response.met[0].metar;
           // results.taf = response.met[0].taf;
@@ -237,11 +241,21 @@
    * discussion.
    */
   var initialWeatherForecast = {
-    loc: 'SBMT',
-    name: '',
-    metar: "METAR",
-    taf: "TAF",
-    created: '2016-07-22T01:00:00Z'
+    info:
+      [
+        {
+          name: "CAMPO DE MARTE"
+        }
+      ],
+    met:    
+      [
+        {
+          loc: 'SBMT',
+          metar: "METAR",
+          taf: "TAF",
+          created: '2016-07-22T01:00:00Z'
+        }        
+      ]
   };
   // TODO uncomment line below to test app with fake data
   // app.updateForecastCard(initialWeatherForecast);
@@ -272,7 +286,7 @@
      */
     app.updateForecastCard(initialWeatherForecast);
     app.selectedAirports = [
-      {icao: initialWeatherForecast.loc}
+      {icao: initialWeatherForecast.met[0].loc}
     ];
     app.saveselectedAirports();
   }
