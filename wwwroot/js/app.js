@@ -45,15 +45,17 @@
 
   document.getElementById('butAddCity').addEventListener('click', function() {
     // Add the newly selected city
-    var input = document.getElementById('selectCityToAdd');
-    var icao = input.value;
+    var input = document.getElementById('selectAirportToAdd');    
+    var icao = input.value.toUpperCase();;
     if (!app.selectedAirports) {
       app.selectedAirports = [];
     }
     app.getForecast(icao);
     app.selectedAirports.push({icao: icao});
     app.saveselectedAirports();
+
     app.toggleAddDialog(false);
+    document.getElementById('selectAirportToAdd').value = '';
   });
 
   document.getElementById('butAddCancel').addEventListener('click', function() {
@@ -211,10 +213,11 @@
           // results.created = date.toISOString();
           app.updateForecastCard(results);
         }
-      } else {
-        // Return the initial weather forecast since no data is available.
-        app.updateForecastCard(initialWeatherForecast);
-      }
+      } 
+      // else {
+      //   // Return the initial weather forecast since no data is available.
+      //   app.updateForecastCard(initialWeatherForecast);
+      // }
     };
     request.open('GET', url);
     request.send();
@@ -230,7 +233,8 @@
 
   // TODO add saveselectedAirports function here
   // Save list of cities to localStorage.
-  app.saveselectedAirports = function() {
+  app.saveselectedAirports = function() 
+  {
     var selectedAirports = JSON.stringify(app.selectedAirports);
     localStorage.selectedAirports = selectedAirports;
   };
@@ -240,23 +244,24 @@
    * or when the user has not saved any cities. See startup code for more
    * discussion.
    */
-  var initialWeatherForecast = {
-    info:
-      [
-        {
-          name: "CAMPO DE MARTE"
-        }
-      ],
-    met:    
-      [
-        {
-          loc: 'SBMT',
-          metar: "METAR",
-          taf: "TAF",
-          created: '2016-07-22T01:00:00Z'
-        }        
-      ]
-  };
+  // var initialWeatherForecast = 
+  // {
+  //   info:
+  //     [
+  //       {
+  //         name: "CAMPO DE MARTE"
+  //       }
+  //     ],
+  //   met:    
+  //     [
+  //       {
+  //         loc: 'SBMT',
+  //         metar: "METAR",
+  //         taf: "TAF",
+  //         created: '2016-07-22T01:00:00Z'
+  //       }        
+  //     ]
+  // };
   // TODO uncomment line below to test app with fake data
   // app.updateForecastCard(initialWeatherForecast);
 
@@ -273,26 +278,29 @@
 
   // TODO add startup code here
   app.selectedAirports = localStorage.selectedAirports;
-  if (app.selectedAirports) {
+  if (app.selectedAirports) 
+  {
     app.selectedAirports = JSON.parse(app.selectedAirports);
-    app.selectedAirports.forEach(function(airport) {
+    app.selectedAirports.forEach(function(airport) 
+    {
       app.getForecast(airport.icao);
     });
-  } else {
-    /* The user is using the app for the first time, or the user has not
-     * saved any cities, so show the user some fake data. A real app in this
-     * scenario could guess the user's location via IP lookup and then inject
-     * that data into the page.
-     */
-    app.updateForecastCard(initialWeatherForecast);
-    app.selectedAirports = [
-      {icao: initialWeatherForecast.met[0].loc}
-    ];
-    app.saveselectedAirports();
-  }
+  } 
+  // else 
+  // {
+  //   /* The user is using the app for the first time, or the user has not
+  //    * saved any cities, so show the user some fake data. A real app in this
+  //    * scenario could guess the user's location via IP lookup and then inject
+  //    * that data into the page.
+  //    */
+  //   app.updateForecastCard(initialWeatherForecast);
+  //   app.selectedAirports = [ {icao: initialWeatherForecast.met[0].loc} ];
+  //   app.saveselectedAirports();
+  // }
 
   // TODO add service worker code here
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) 
+  {
     navigator.serviceWorker
              .register('./service-worker.js')
              .then(function() { console.log('Service Worker Registered'); });
