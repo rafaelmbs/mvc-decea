@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using mvc_decea.Configuration;
 using mvc_decea.Services;
+using mvc_decea.Settings;
 
 namespace mvc_decea
 {
@@ -33,6 +34,8 @@ namespace mvc_decea
             services.AddMvc();
 
             AppConfiguration.ConfigureServices(services);
+
+            services.Configure<AppSettings>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

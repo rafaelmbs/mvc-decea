@@ -14,6 +14,9 @@ namespace mvc_decea.Configuration
             services.AddTransient<NotamService>();
             services.AddTransient<WeatherService>();
 
+            //Contexts
+            //services.AddTransient(typeof(DotzAppContext), p => new DotzAppContext(new SqlConnection(EnvOptions<AppSettings>.Options.ConnectionString_DotzApp)));
+
             //Repositories
             services.AddTransient<IAeroRepository, AeroRepository>();
             services.AddTransient<IChartsRepository, ChartsRepository>();
