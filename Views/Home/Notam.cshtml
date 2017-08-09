@@ -4,7 +4,6 @@
 <h2>@ViewData["Title"].</h2>
 <h3>@ViewData["Message"]</h3>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript">
 function getNotam(icao) {
     $.ajax({
@@ -15,19 +14,22 @@ function getNotam(icao) {
             var div = document.getElementById('div');
             //$.each(data.met[0], function (i, obj) {
                 var p = document.createElement('p');
-                p.innerHTML = data.notam.loc + ' - ' + data.notam.aero;
+
+                var notam = data.notam[0];
+
+                p.innerHTML = notam.loc + ' - ' + notam.aero;
                 div.appendChild(p);
 
                 p = document.createElement('p');
-                p.innerHTML = 'B - ' + data.notam.b;
+                p.innerHTML = 'B - ' + notam.b;
                 div.appendChild(p);
 
                 p = document.createElement('p');
-                p.innerHTML = 'C - ' + data.notam.c;
+                p.innerHTML = 'C - ' + notam.c;
                 div.appendChild(p);
 
                 p = document.createElement('p');
-                p.innerHTML = 'E - ' + data.notam.e;
+                p.innerHTML = 'E - ' + notam.e;
                 div.appendChild(p);
             //});
         }

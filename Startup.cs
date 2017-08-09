@@ -32,7 +32,7 @@ namespace mvc_decea
             // Add framework services.
             services.AddMvc();
 
-            WeatherConfiguration.ConfigureServices(services);
+            AppConfiguration.ConfigureServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

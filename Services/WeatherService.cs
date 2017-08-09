@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using mvc_decea.Repository.Repositories;
-using mvc_decea.Repository.Views;
+using mvc_decea.Repository.Views.Weather;
 using Newtonsoft.Json;
 
 namespace mvc_decea.Services
@@ -16,7 +16,7 @@ namespace mvc_decea.Services
             _weatherRepository = weatherRepository;
         }
 
-        public async Task<IList<WeatherMetView>> GetWeather(string icao)
+        public async Task<IList<WeatherItemView>> GetWeather(string icao)
         {
             var result = await _weatherRepository.GetWeather(icao);
 

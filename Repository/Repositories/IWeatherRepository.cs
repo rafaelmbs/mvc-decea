@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using mvc_decea.Repository.Views;
+using mvc_decea.Repository.Views.Weather;
 
 namespace mvc_decea.Repository.Repositories
 {
     public interface IWeatherRepository
     {
-        Task<IList<WeatherMetView>> GetWeather(string icao);
+        Task<IList<WeatherItemView>> GetWeather(string icao);
     }
 }

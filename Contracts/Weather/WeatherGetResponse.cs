@@ -1,4 +1,4 @@
-using mvc_decea.Repository.Views;
+using mvc_decea.Repository.Views.Weather;
 
 namespace mvc_decea.Contracts.Weather
 {

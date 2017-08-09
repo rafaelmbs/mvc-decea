@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
-using Newtonsoft.Json;
-using mvc_decea.Contracts.Weather;
 using mvc_decea.Services;
 
 namespace mvc_decea.Controllers
