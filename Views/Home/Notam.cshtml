@@ -12,12 +12,12 @@ function getNotam(icao) {
         success: function (data) {
             $("#div p").remove(); 
             var div = document.getElementById('div');
-            //$.each(data.met[0], function (i, obj) {
+            $.each(data.notam, function (i, obj) {
                 var p = document.createElement('p');
 
-                var notam = data.notam[0];
+                var notam = obj;
 
-                p.innerHTML = notam.loc + ' - ' + notam.aero;
+                p.innerHTML = notam.n;
                 div.appendChild(p);
 
                 p = document.createElement('p');
@@ -31,7 +31,7 @@ function getNotam(icao) {
                 p = document.createElement('p');
                 p.innerHTML = 'E - ' + notam.e;
                 div.appendChild(p);
-            //});
+             }); 
         }
     });
 }
