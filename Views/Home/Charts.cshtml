@@ -12,52 +12,48 @@ function getAeroInfo(icao) {
         success: function (data) {
             $("#div p").remove(); 
             var div = document.getElementById('div');
-            //$.each(data.met[0], function (i, obj) {
-                var p = document.createElement('p');
-                p.innerHTML = data.info[0].aeroCode + ' - ' + data.info[0].name;
-                div.appendChild(p);
-            //});
+            var p = document.createElement('p');
+            p.innerHTML = data.info[0].aeroCode + ' - ' + data.info[0].name;
+            div.appendChild(p);
         }
     });
 }
 
 function getCharts(icao) {
     $.ajax({
-            url: "/Charts/" + icao,
-            type: "GET",
-            success: function (data) {
-                $("#tb tr").remove(); 
-                var table = document.getElementById('tb');
-                var tr = document.createElement('tr');
+        url: "/Charts/" + icao,
+        type: "GET",
+        success: function (data) {
+            $("#tb tr").remove(); 
+            var table = document.getElementById('tb');
+            var tr = document.createElement('tr');
+            tr = document.createElement('tr');
+            tr.innerHTML = '<td>Tipo</td><td>Carta</td>';
+            table.appendChild(tr);
+            $.each(data.cartas[0].item, function (i, obj) {
                 tr = document.createElement('tr');
-                tr.innerHTML = '<td>Tipo</td><td>Carta</td>';
+                var td = document.createElement('td');
+                td.innerHTML = obj.tipo;
+                tr.appendChild(td);
+
+                td = document.createElement('td');
+                td.innerHTML = '<a target="_blank" href='+ obj.link +'>' + obj.nome + '</a>';
+
+                tr.appendChild(td);
                 table.appendChild(tr);
-                $.each(data.cartas[0].item, function (i, obj) {
-                    tr = document.createElement('tr');
-                    var td = document.createElement('td');
-                    td.innerHTML = obj.tipo;
-                    tr.appendChild(td);
-
-                    td = document.createElement('td');
-                    td.innerHTML = '<a target="_blank" href='+ obj.link +'>' + obj.nome + '</a>';
-
-                    tr.appendChild(td);
-                    table.appendChild(tr);
-                });
-            }
-        });
+            });
+        }
+    });
 }
 
 $(document).ready(function() {
-    //$('#btnPesquisar').click(function() {
-        var icao = "@ViewData["icao"]";
-        getAeroInfo(icao);
-        getCharts(icao);
-    //});
+    var icao = "@ViewData["icao"]";
+    getAeroInfo(icao);
+    getCharts(icao);
 });
 </script>
 
-<div ng-app="">
+<div class="card cardTemplate weather-forecast" >
     <div id="div"></div>    
     <div class="table-responsive">
         <table class="table" id="tb"></table>
