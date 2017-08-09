@@ -1,21 +1,23 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using mvc_decea.Repository.Repositories;
 using mvc_decea.Services;
+using mvc_decea.Settings;
 
 namespace mvc_decea.Configuration
 {
     public class AppConfiguration
     {
-        public static void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services, IConfigurationRoot configuration)
         {
+            //AppSettings
+            services.Configure<AppSettings>(configuration);
+
             //Services
             services.AddTransient<AeroService>();
             services.AddTransient<ChartsService>();
             services.AddTransient<NotamService>();
-            services.AddTransient<WeatherService>();
-
-            //Contexts
-            //services.AddTransient(typeof(DotzAppContext), p => new DotzAppContext(new SqlConnection(EnvOptions<AppSettings>.Options.ConnectionString_DotzApp)));
+            services.AddTransient<WeatherService>();            
 
             //Repositories
             services.AddTransient<IAeroRepository, AeroRepository>();
