@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 (function() {
   'use strict';
 
@@ -25,7 +24,6 @@
     container: document.querySelector('.main'),
     addDialog: document.querySelector('.dialog-container')
   };
-
 
   /*****************************************************************************
    *
@@ -51,6 +49,7 @@
       app.selectedAirports = [];
     }
     app.getForecast(icao);
+
     app.selectedAirports.push({icao: icao});
     app.saveselectedAirports();
 
@@ -134,7 +133,8 @@
     card.querySelector('.linkNotam').textContent = "Notam";
     card.querySelector('.linkNotam').setAttribute('href', "/Home/Notam?icao=" + weather.loc);
 
-    if (app.isLoading) {
+    if (app.isLoading)
+    {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
       app.isLoading = false;
@@ -168,6 +168,14 @@
         if (response) {
           response.json().then(function updateFromCache(json) {
             var results = json;
+            if (results.info[0].aeroCode == undefined)
+              {
+                alert("Invalid Airport");
+              }
+            else
+              {
+                app.updateForecastCard(results);
+              }
             // results.loc = json.met[0].loc;
             // results.metar = json.met[0].metar;
             // results.taf = json.met[0].taf;
@@ -181,9 +189,7 @@
 
             // var date = new Date(year+"-"+month+"-"+day+" "+hour+":00");
 
-            // results.created = date.toISOString();
-
-            app.updateForecastCard(results);
+            // results.created = date.toISOString();            
           });
         }
       });
@@ -195,6 +201,14 @@
         if (request.status === 200) {
           var response = JSON.parse(request.response);
           var results = response;
+          if (results.info[0].aeroCode == undefined)
+            {
+              alert("Invalid Airport");
+            }
+          else
+            {
+              app.updateForecastCard(results);
+            }
           // results.loc = icao;
           // results.metar = response.met[0].metar;
           // results.taf = response.met[0].taf;
@@ -211,7 +225,6 @@
           // var date = new Date(strDate);
 
           // results.created = date.toISOString();
-          app.updateForecastCard(results);
         }
       } 
       // else {
