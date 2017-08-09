@@ -111,6 +111,12 @@
     cardLastUpdatedElem.textContent = data.created;
 
     var metar = data.metar.toString().slice(13);
+
+    if (metar.indexOf("SPECI") >= 0)
+      {
+        metar = metar.substring(metar.indexOf("SPECI"), metar.lenght);
+      }
+
     var taf = data.taf.toString().slice(13);
 
     card.querySelector('.metar').textContent = metar;
