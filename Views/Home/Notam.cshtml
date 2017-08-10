@@ -2,47 +2,34 @@
     ViewData["Title"] = "Charts Page";
 }
 <h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
+<script>
+    var app = angular.module("app", []);
+    app.controller("notamController", function ($scope, $http) {
+        $scope.GetAllData = function (icao) {
+            $http.get('/Notam/' + icao)
+            .then(function (response) {
+                $scope.Notam = response.data.notam;
+            });
+        };
 
-<script type="text/javascript">
-function getNotam(icao) {
-    $.ajax({
-        url: "/Notam/" + icao,
-        type: "GET",
-        success: function (data) {
-            $("#div p").remove(); 
-            var div = document.getElementById('div');
-            $.each(data.notam, function (i, obj) {
-                var p = document.createElement('p');
-                var notam = obj;
-
-                p.innerHTML = notam.n;
-                div.appendChild(p);
-
-                p = document.createElement('p');
-                p.innerHTML = 'B - ' + notam.b;
-                div.appendChild(p);
-
-                p = document.createElement('p');
-                p.innerHTML = 'C - ' + notam.c;
-                div.appendChild(p);
-
-                p = document.createElement('p');
-                p.innerHTML = 'E - ' + notam.e;
-                div.appendChild(p);
-             }); 
-        }
+        var icao = "@ViewData["icao"]";
+        $scope.GetAllData(icao);
     });
-}
-
-$(document).ready(function() {
-    var icao = "@ViewData["icao"]";
-    getNotam(icao);
-});
 </script>
-
-<div class="card cardTemplate weather-forecast" >
-    <div id="div"></div>
-    <br>
-    <a href="/Home">Voltar</a>
+<div class="card cardTemplate weather-forecast">
+    <div ng-app="app" ng-controller="notamController">
+    <p ng-cloak>{{Notam[0].aero[0] + ' - ' + Notam[0].cidade[0] + '/' + Notam[0].uf[0] + ' | ' + Notam[0].fir[0]}}</p>
+    <table>
+        <tr ng-repeat="n in Notam">
+           <td>
+               <p ng-bind="n.n[0]"></p>
+               <p ng-bind="n.b[0]"></p>
+               <p ng-bind="n.c[0]"></p>
+               <p ng-bind="n.e[0]"></p>
+           </td>
+        </tr>
+    </table>
+    </div>
+    <hr />
+    <a href="/Home" class="btn btn-primary">Voltar</a>
 </div>
