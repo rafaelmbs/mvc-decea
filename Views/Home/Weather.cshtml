@@ -22,10 +22,8 @@ function getWeather(icao) {
 }
 
 $(document).ready(function() {
-    //$('#btnPesquisar').click(function() {
-        var icao = "@ViewData["icao"]";
-        getWeather(icao);
-    //});
+    var icao = "@ViewData["icao"]";
+    getWeather(icao);
 });
 </script>
 
