@@ -5,28 +5,29 @@
 <script>
     var app = angular.module("app", []);
     app.controller("notamController", function ($scope, $http) {
-        $scope.GetAllData = function (icao) {
+        $scope.GetNotam = function (icao) {
             $http.get('/Notam/' + icao)
             .then(function (response) {
                 $scope.Notam = response.data.notam;
             });
         };
-
         var icao = "@ViewData["icao"]";
-        $scope.GetAllData(icao);
+        $scope.GetNotam(icao);
     });
 </script>
 <div class="card cardTemplate weather-forecast">
-    <div ng-app="app" ng-controller="notamController">
-    <p ng-cloak>{{Notam[0].aero[0] + ' - ' + Notam[0].cidade[0] + '/' + Notam[0].uf[0] + ' | ' + Notam[0].fir[0]}}</p>
-    <table>
+    <div ng-cloak ng-show="Notam != null" ng-app="app" ng-controller="notamController">
+    <p>{{Notam[0].aero[0] + ' - ' + Notam[0].cidade[0] + '/' + Notam[0].uf[0] + ' | ' + Notam[0].fir[0]}}</p>
+    <table class="table table-responsive">
         <tr ng-repeat="n in Notam">
-           <td>
-               <p ng-bind="n.n[0]"></p>
-               <p ng-bind="n.b[0]"></p>
-               <p ng-bind="n.c[0]"></p>
-               <p ng-bind="n.e[0]"></p>
-           </td>
+            <td>
+                <p ><strong ng-bind="n.n[0]"></strong></p>
+            </td>
+            <td>
+                <p>B <strong>{{n.b[0]}}</strong></p>
+                <p>C <strong>{{n.c[0]}}</strong></p>
+                <p>E <span style="white-space:pre-wrap;"><strong>{{n.e[0]}}</strong></span></p>
+            </td>
         </tr>
     </table>
     </div>
