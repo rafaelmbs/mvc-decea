@@ -45,16 +45,20 @@
     // Add the newly selected city
     var input = document.getElementById('selectAirportToAdd');    
     var icao = input.value.toUpperCase();;
-    if (!app.selectedAirports) {
-      app.selectedAirports = [];
-    }
-    app.getForecast(icao);
 
-    app.selectedAirports.push({icao: icao});
-    app.saveselectedAirports();
+    if (icao != '')
+      {
+        if (!app.selectedAirports) {
+          app.selectedAirports = [];
+        }
+        app.getForecast(icao);
 
+        app.selectedAirports.push({icao: icao});
+        app.saveselectedAirports();        
+        document.getElementById('selectAirportToAdd').value = '';
+      }
+    
     app.toggleAddDialog(false);
-    document.getElementById('selectAirportToAdd').value = '';
   });
 
   document.getElementById('butAddCancel').addEventListener('click', function() {
