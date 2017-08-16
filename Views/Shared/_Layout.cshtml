@@ -63,8 +63,7 @@
 <body>
     <header class="header">
         <h1 class="header__title">Airport Weather</h1>
-        <button id="butRefresh" class="headerButton" aria-label="Refresh"></button>
-        <button id="butAdd" class="headerButton" aria-label="Add"></button>
+        @RenderSection("headerButtons", required: false)                       
     </header>
 
     @RenderBody()
