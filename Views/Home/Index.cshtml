@@ -26,9 +26,11 @@
 
 <div class="dialog-container">
     <div class="dialog">
-        <div class="dialog-title">Add new Airport</div>
+        <div class="dialog-title">
+            <label>Add new Airport</label>
+        </div>
         <div class="dialog-body">
-            <input style="font-size:16px" id="selectAirportToAdd" type="text"></input>
+            <input class="form-control" style="font-size:16px" placeholder="ICAO" type="text" title="inputIcao" id="selectAirportToAdd">
         </div>
         <div class="dialog-buttons">
             <button id="butAddCity" class="button">Add</button>
@@ -47,5 +49,5 @@
     <script src="~/js/app.js" async asp-append-version="true"></script>
 </environment>
 <environment names="Staging,Production">
-    <script src="~/js/app.js" async asp-append-version="true"></script>
+    <script src="~/js/app.min.js" async asp-append-version="true"></script>
 </environment>
