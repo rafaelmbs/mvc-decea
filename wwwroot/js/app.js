@@ -22,7 +22,8 @@
     spinner: document.querySelector('.loader'),
     cardTemplate: document.querySelector('.cardTemplate'),
     container: document.querySelector('.main'),
-    addDialog: document.querySelector('.dialog-container')
+    addDialog: document.querySelector('#addDialog'),
+    removeDialog: document.querySelector('#removeDialog')
   };
 
   /*****************************************************************************
@@ -38,7 +39,12 @@
 
   document.getElementById('butAdd').addEventListener('click', function() {
     // Open/show the add new city dialog
-    app.toggleAddDialog(true);
+    app.toggleAddDialog(app.addDialog, true);
+  });
+
+  document.getElementById('butRemove').addEventListener('click', function() {
+    // Open/show the add new city dialog
+    app.toggleAddDialog(app.removeDialog, true);
   });
 
   document.getElementById('butAddCity').addEventListener('click', function() {
@@ -51,6 +57,9 @@
         if (!app.selectedAirports) {
           app.selectedAirports = [];
         }
+        var buttonRemove = document.querySelector("#butRemove");
+        buttonRemove.hidden = false;
+
         app.getForecast(icao);
 
         app.selectedAirports.push({icao: icao});
@@ -58,12 +67,17 @@
         document.getElementById('selectAirportToAdd').value = '';
       }
     
-    app.toggleAddDialog(false);
+    app.toggleAddDialog(app.addDialog, false);
   });
 
   document.getElementById('butAddCancel').addEventListener('click', function() {
     // Close the add new city dialog
-    app.toggleAddDialog(false);
+    app.toggleAddDialog(app.addDialog, false);
+  });
+
+  document.getElementById('butRemoveCancel').addEventListener('click', function() {
+    // Close the add new city dialog
+    app.toggleAddDialog(app.removeDialog, false);
   });
 
   /*****************************************************************************
@@ -73,11 +87,24 @@
    ****************************************************************************/
 
   // Toggles the visibility of the add new city dialog.
-  app.toggleAddDialog = function(visible) {
+  app.toggleAddDialog = function(dialog, visible) {
     if (visible) {
-      app.addDialog.classList.add('dialog-container--visible');
+      if (dialog.id == "removeDialog")
+        {
+          var selectedAirports = app.selectedAirports;
+          var selectRemove = document.querySelector("#selectRemove");
+
+          selectRemove.innerHTML
+
+          selectedAirports.forEach(function(element) {            
+            selectRemove.innerHTML += "<option>" + element.icao + "</option'>";
+            console.log(element);
+          });
+        }      
+
+      dialog.classList.add('dialog-container--visible');
     } else {
-      app.addDialog.classList.remove('dialog-container--visible');
+      dialog.classList.remove('dialog-container--visible');
     }
   };
 
@@ -295,8 +322,10 @@
 
   // TODO add startup code here
   app.selectedAirports = localStorage.selectedAirports;
-  if (app.selectedAirports) 
+  if (app.selectedAirports)
   {
+    var buttonRemove = document.querySelector("#butRemove");
+    buttonRemove.hidden = false;
     app.selectedAirports = JSON.parse(app.selectedAirports);
     app.selectedAirports.forEach(function(airport) 
     {
