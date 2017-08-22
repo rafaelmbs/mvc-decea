@@ -19,10 +19,11 @@
 
 @section headerButtons{
     <button id="butRefresh" class="headerButton" aria-label="Refresh"></button>
-    <button id="butAdd" class="headerButton" aria-label="Add"></button>   
+    <button id="butAdd" class="headerButton" aria-label="Add"></button>
+    <button id="butRemove" class="headerButton" aria-label="Remove" hidden></button>
 }
 
-<div class="dialog-container">
+<div class="dialog-container" id="addDialog">
     <div class="dialog">
         <div class="dialog-title">
             <label>Add new Airport</label>
@@ -35,7 +36,23 @@
             <button id="butAddCancel" class="button">Cancel</button>
         </div>
     </div>
-</div>    
+</div>
+
+<div class="dialog-container" id="removeDialog">
+    <div class="dialog">
+        <div class="dialog-title">
+            <label>Remove new Airport</label>
+        </div>
+        <div class="dialog-body">
+            <select id="selectRemove"></select>
+            <input class="form-control" placeholder="ICAO" type="text" title="inputIcao" id="selectAirportToRemove">
+        </div>
+        <div class="dialog-buttons">
+            <button id="butRemoveCity" class="button">Remove</button>
+            <button id="butRemoveCancel" class="button">Cancel</button>
+        </div>
+    </div>
+</div> 
 
 <div class="loader" hidden>
     <svg viewBox="0 0 32 32" width="32" height="32">
