@@ -47,7 +47,7 @@
     app.toggleAddDialog(app.removeDialog, true);
   });
 
-  document.getElementById('butAddCity').addEventListener('click', function() {
+  document.getElementById('butAddAirport').addEventListener('click', function() {
     // Add the newly selected city
     var input = document.getElementById('selectAirportToAdd');    
     var icao = input.value.toUpperCase();;
@@ -68,6 +68,21 @@
       }
     
     app.toggleAddDialog(app.addDialog, false);
+  });
+
+  document.getElementById('butRemoveAirport').addEventListener('click', function() {
+    var result = confirm("Want to delete?");
+    if (result) {
+        var icao = document.querySelector("#selectRemove").value;
+        var visibleCards = app.visibleCards;
+
+        app.selectedAirports = app.selectedAirports.filter(item => item.icao !== icao);
+
+        app.saveselectedAirports();
+
+        app.initialFunction();
+    }
+    app.toggleAddDialog(app.removeDialog, false);
   });
 
   document.getElementById('butAddCancel').addEventListener('click', function() {
@@ -94,11 +109,10 @@
           var selectedAirports = app.selectedAirports;
           var selectRemove = document.querySelector("#selectRemove");
 
-          selectRemove.innerHTML
+          selectRemove.innerHTML = "";
 
           selectedAirports.forEach(function(element) {            
             selectRemove.innerHTML += "<option>" + element.icao + "</option'>";
-            console.log(element);
           });
         }      
 
@@ -321,17 +335,22 @@
    ************************************************************************/
 
   // TODO add startup code here
-  app.selectedAirports = localStorage.selectedAirports;
-  if (app.selectedAirports)
-  {
-    var buttonRemove = document.querySelector("#butRemove");
-    buttonRemove.hidden = false;
-    app.selectedAirports = JSON.parse(app.selectedAirports);
-    app.selectedAirports.forEach(function(airport) 
-    {
-      app.getForecast(airport.icao);
-    });
-  } 
+  app.initialFunction = function(){
+    app.selectedAirports = localStorage.selectedAirports;
+
+    if (app.selectedAirports != undefined)
+    {      
+      var buttonRemove = document.querySelector("#butRemove");
+      buttonRemove.hidden = false;
+      app.selectedAirports = JSON.parse(app.selectedAirports);
+      app.selectedAirports.forEach(function(airport) 
+      {
+        app.getForecast(airport.icao);
+      });
+    } 
+  };
+
+  app.initialFunction();
   // else 
   // {
   //   /* The user is using the app for the first time, or the user has not
