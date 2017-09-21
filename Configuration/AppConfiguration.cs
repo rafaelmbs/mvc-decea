@@ -8,7 +8,7 @@ namespace mvc_decea.Configuration
 {
     public class AppConfiguration
     {
-        public static void ConfigureServices(IServiceCollection services, IConfigurationRoot configuration)
+        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             //AppSettings
             services.Configure<AppSettings>(configuration);
