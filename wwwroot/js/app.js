@@ -177,11 +177,13 @@
     card.querySelector('.metar').textContent = metar;
     card.querySelector('.taf').textContent = taf;
 
-    card.querySelector('.linkCharts').textContent = "Charts";
-    card.querySelector('.linkCharts').setAttribute('href', "/Home/Charts?icao=" + weather.loc);
+    // TODO: Implement Charts feature
+    // card.querySelector('.linkCharts').textContent = "Charts";
+    // card.querySelector('.linkCharts').setAttribute('href', "/Home/Charts?icao=" + weather.loc);
 
-    card.querySelector('.linkNotam').textContent = "Notam";
-    card.querySelector('.linkNotam').setAttribute('href', "/Home/Notam?icao=" + weather.loc);
+    // TODO: Implement Notam feature
+    // card.querySelector('.linkNotam').textContent = "Notam";
+    // card.querySelector('.linkNotam').setAttribute('href', "/Home/Notam?icao=" + weather.loc);
 
     if (app.isLoading)
     {
