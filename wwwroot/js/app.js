@@ -42,6 +42,7 @@
     app.toggleAddDialog(app.addDialog, true);
   });
 
+  //TODO: Implement remove button
   // document.getElementById('butRemove').addEventListener('click', function() {
   //   // Open/show the add new city dialog
   //   app.toggleAddDialog(app.removeDialog, true);
@@ -57,6 +58,7 @@
         if (!app.selectedAirports) {
           app.selectedAirports = [];
         }
+        //TODO: Implement remove button
         // var buttonRemove = document.querySelector("#butRemove");
         // buttonRemove.hidden = false;
 
@@ -70,6 +72,7 @@
     app.toggleAddDialog(app.addDialog, false);
   });
 
+  //TODO: Implement remove button
   // document.getElementById('butRemoveAirport').addEventListener('click', function() {
   //   var result = confirm("Want to delete?");
   //   if (result) {
@@ -90,6 +93,7 @@
     app.toggleAddDialog(app.addDialog, false);
   });
 
+  //TODO: Implement remove button
   // document.getElementById('butRemoveCancel').addEventListener('click', function() {
   //   // Close the add new city dialog
   //   app.toggleAddDialog(app.removeDialog, false);
@@ -341,8 +345,9 @@
 
     if (app.selectedAirports != undefined)
     {      
-      var buttonRemove = document.querySelector("#butRemove");
-      buttonRemove.hidden = false;
+      //TODO: Implement remove button
+      // var buttonRemove = document.querySelector("#butRemove");
+      // buttonRemove.hidden = false;
       app.selectedAirports = JSON.parse(app.selectedAirports);
       app.selectedAirports.forEach(function(airport) 
       {
