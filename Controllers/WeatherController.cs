@@ -26,9 +26,10 @@ namespace mvc_decea.Controllers
             {
                 try
                 {
-                    var aero = await _aeroService.GetInfo(icao);
+                    //var aero = await _aeroService.GetInfo(icao);
                     var result = await _service.GetWeather(icao);
-                    return Json(new { Met = result, Info = aero });
+                    // return Json(new { Met = result, Info = aero });
+                    return Json(new { Met = result });
                 }
                 catch (HttpRequestException httpRequestException)
                 {
