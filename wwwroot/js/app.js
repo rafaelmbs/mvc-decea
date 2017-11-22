@@ -42,10 +42,10 @@
     app.toggleAddDialog(app.addDialog, true);
   });
 
-  document.getElementById('butRemove').addEventListener('click', function() {
-    // Open/show the add new city dialog
-    app.toggleAddDialog(app.removeDialog, true);
-  });
+  // document.getElementById('butRemove').addEventListener('click', function() {
+  //   // Open/show the add new city dialog
+  //   app.toggleAddDialog(app.removeDialog, true);
+  // });
 
   document.getElementById('butAddAirport').addEventListener('click', function() {
     // Add the newly selected city
