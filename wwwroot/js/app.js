@@ -133,13 +133,14 @@
     //v1ar wind = data.channel.wind;    
 
     var weather = data.met[0];
-    var info = data.info[0];
+    //var info = data.info[0];
 
     var card = app.visibleCards[weather.loc];
     if (!card) {
       card = app.cardTemplate.cloneNode(true);
       card.classList.remove('cardTemplate');
-      card.querySelector('.name').textContent = info.name;
+      // card.querySelector('.name').textContent = info.name;
+      card.querySelector('.name').textContent = weather.loc;
       card.querySelector('.location').textContent = weather.loc;
       card.removeAttribute('hidden');
       app.container.appendChild(card);
@@ -213,7 +214,7 @@
         if (response) {
           response.json().then(function updateFromCache(json) {
             var results = json;
-            if (results.info[0].aeroCode == undefined)
+            if (results.met[0].loc == undefined)
               {
                 alert("Invalid Airport");
               }
@@ -246,7 +247,7 @@
         if (request.status === 200) {
           var response = JSON.parse(request.response);
           var results = response;
-          if (results.info[0].aeroCode == undefined)
+          if (results.met[0].loc == undefined)
             {
               alert("Invalid Airport");
             }

@@ -20,7 +20,7 @@
 @section headerButtons{
     <button id="butRefresh" class="headerButton" aria-label="Refresh"></button>
     <button id="butAdd" class="headerButton" aria-label="Add"></button>
-    <button id="butRemove" class="headerButton" aria-label="Remove" hidden></button>
+    <!-- <button id="butRemove" class="headerButton" aria-label="Remove" hidden></button> -->
 }
 
 <div class="dialog-container" id="addDialog">
@@ -63,5 +63,5 @@
     <script src="~/js/app.js" async asp-append-version="true"></script>
 </environment>
 <environment names="Staging,Production">
-    <script src="~/js/app.min.js" async asp-append-version="true"></script>
+    <script src="~/js/app.js" async asp-append-version="true"></script>
 </environment>
