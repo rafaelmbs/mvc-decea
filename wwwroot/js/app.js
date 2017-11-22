@@ -57,8 +57,8 @@
         if (!app.selectedAirports) {
           app.selectedAirports = [];
         }
-        var buttonRemove = document.querySelector("#butRemove");
-        buttonRemove.hidden = false;
+        // var buttonRemove = document.querySelector("#butRemove");
+        // buttonRemove.hidden = false;
 
         app.getForecast(icao);
 
@@ -70,30 +70,30 @@
     app.toggleAddDialog(app.addDialog, false);
   });
 
-  document.getElementById('butRemoveAirport').addEventListener('click', function() {
-    var result = confirm("Want to delete?");
-    if (result) {
-        var icao = document.querySelector("#selectRemove").value;
-        var visibleCards = app.visibleCards;
+  // document.getElementById('butRemoveAirport').addEventListener('click', function() {
+  //   var result = confirm("Want to delete?");
+  //   if (result) {
+  //       var icao = document.querySelector("#selectRemove").value;
+  //       var visibleCards = app.visibleCards;
 
-        app.selectedAirports = app.selectedAirports.filter(item => item.icao !== icao);
+  //       app.selectedAirports = app.selectedAirports.filter(item => item.icao !== icao);
 
-        app.saveselectedAirports();
+  //       app.saveselectedAirports();
 
-        app.initialFunction();
-    }
-    app.toggleAddDialog(app.removeDialog, false);
-  });
+  //       app.initialFunction();
+  //   }
+  //   app.toggleAddDialog(app.removeDialog, false);
+  // });
 
   document.getElementById('butAddCancel').addEventListener('click', function() {
     // Close the add new city dialog
     app.toggleAddDialog(app.addDialog, false);
   });
 
-  document.getElementById('butRemoveCancel').addEventListener('click', function() {
-    // Close the add new city dialog
-    app.toggleAddDialog(app.removeDialog, false);
-  });
+  // document.getElementById('butRemoveCancel').addEventListener('click', function() {
+  //   // Close the add new city dialog
+  //   app.toggleAddDialog(app.removeDialog, false);
+  // });
 
   /*****************************************************************************
    *
@@ -102,24 +102,24 @@
    ****************************************************************************/
 
   // Toggles the visibility of the add new city dialog.
-  app.toggleAddDialog = function(dialog, visible) {
-    if (visible) {
-      if (dialog.id == "removeDialog")
-        {
-          var selectedAirports = app.selectedAirports;
-          var selectRemove = document.querySelector("#selectRemove");
+  // app.toggleAddDialog = function(dialog, visible) {
+  //   if (visible) {
+  //     if (dialog.id == "removeDialog")
+  //       {
+  //         var selectedAirports = app.selectedAirports;
+  //         var selectRemove = document.querySelector("#selectRemove");
 
-          selectRemove.innerHTML = "";
+  //         selectRemove.innerHTML = "";
 
-          selectedAirports.forEach(function(element) {            
-            selectRemove.innerHTML += "<option>" + element.icao + "</option'>";
-          });
-        }      
+  //         selectedAirports.forEach(function(element) {            
+  //           selectRemove.innerHTML += "<option>" + element.icao + "</option'>";
+  //         });
+  //       }      
 
-      dialog.classList.add('dialog-container--visible');
-    } else {
-      dialog.classList.remove('dialog-container--visible');
-    }
+  //     dialog.classList.add('dialog-container--visible');
+  //   } else {
+  //     dialog.classList.remove('dialog-container--visible');
+  //   }
   };
 
   // Updates a weather card with the latest weather forecast. If the card
