@@ -120,7 +120,7 @@
   //   } else {
   //     dialog.classList.remove('dialog-container--visible');
   //   }
-  };
+  // };
 
   // Updates a weather card with the latest weather forecast. If the card
   // doesn't already exist, it's cloned from the template.
