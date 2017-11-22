@@ -102,25 +102,25 @@
    ****************************************************************************/
 
   // Toggles the visibility of the add new city dialog.
-  // app.toggleAddDialog = function(dialog, visible) {
-  //   if (visible) {
-  //     if (dialog.id == "removeDialog")
-  //       {
-  //         var selectedAirports = app.selectedAirports;
-  //         var selectRemove = document.querySelector("#selectRemove");
+  app.toggleAddDialog = function(dialog, visible) {
+    if (visible) {
+      if (dialog.id == "removeDialog")
+        {
+          var selectedAirports = app.selectedAirports;
+          var selectRemove = document.querySelector("#selectRemove");
 
-  //         selectRemove.innerHTML = "";
+          selectRemove.innerHTML = "";
 
-  //         selectedAirports.forEach(function(element) {            
-  //           selectRemove.innerHTML += "<option>" + element.icao + "</option'>";
-  //         });
-  //       }      
+          selectedAirports.forEach(function(element) {            
+            selectRemove.innerHTML += "<option>" + element.icao + "</option'>";
+          });
+        }      
 
-  //     dialog.classList.add('dialog-container--visible');
-  //   } else {
-  //     dialog.classList.remove('dialog-container--visible');
-  //   }
-  // };
+      dialog.classList.add('dialog-container--visible');
+    } else {
+      dialog.classList.remove('dialog-container--visible');
+    }
+  };
 
   // Updates a weather card with the latest weather forecast. If the card
   // doesn't already exist, it's cloned from the template.
