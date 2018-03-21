@@ -19,14 +19,13 @@
         };
         var icao = "@ViewData["icao"]";
 
-        //$scope.GetInfo(icao);
+        $scope.GetInfo(icao);
         $scope.GetCharts(icao);
     });
 </script>
 <div class="card cardTemplate weather-forecast">
     <div ng-cloak ng-show="Charts != null" ng-app="app" ng-controller="chartsController" class="">
-    <!-- <p ng-cloak>{{Info.aeroCode[0] + ' - ' + Info.name[0] }}</p> -->
-    <p ng-cloak>@ViewData["icao"]</p>
+    <p ng-cloak>{{Info.aeroCode[0] + ' - ' + Info.name[0] }}</p>
     <table class="table table-responsive">
         <tr>
             <td>Tipo</td>

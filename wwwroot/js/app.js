@@ -137,9 +137,7 @@
     //v1ar wind = data.channel.wind;    
 
     var weather = data.met[0];
-    // var info = data.info[0];
-
-    console.log(data);
+    //var info = data.info[0];
 
     var card = app.visibleCards[weather.loc];
     if (!card) {
@@ -180,12 +178,12 @@
     card.querySelector('.taf').textContent = taf;
 
     // TODO: Implement Charts feature
-    card.querySelector('.linkCharts').textContent = "Charts";
-    card.querySelector('.linkCharts').setAttribute('href', "/Home/Charts?icao=" + weather.loc);
+    // card.querySelector('.linkCharts').textContent = "Charts";
+    // card.querySelector('.linkCharts').setAttribute('href', "/Home/Charts?icao=" + weather.loc);
 
     // TODO: Implement Notam feature
-    card.querySelector('.linkNotam').textContent = "Notam";
-    card.querySelector('.linkNotam').setAttribute('href', "/Home/Notam?icao=" + weather.loc);
+    // card.querySelector('.linkNotam').textContent = "Notam";
+    // card.querySelector('.linkNotam').setAttribute('href', "/Home/Notam?icao=" + weather.loc);
 
     if (app.isLoading)
     {
