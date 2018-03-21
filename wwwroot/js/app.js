@@ -139,8 +139,6 @@
     var weather = data.met[0];
     // var info = data.info[0];
 
-    console.log(data);
-
     var card = app.visibleCards[weather.loc];
     if (!card) {
       card = app.cardTemplate.cloneNode(true);
